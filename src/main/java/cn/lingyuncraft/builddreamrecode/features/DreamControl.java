@@ -7,7 +7,7 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.world.World;
-import com.sun.istack.internal.NotNull;
+import lombok.NonNull;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -24,7 +24,7 @@ import java.util.UUID;
 
 public class DreamControl {
 
-    public static void buildDream(@NotNull String publicID, @NotNull org.bukkit.World world, @NotNull Location loc1, @NotNull Location loc2, @NotNull UUID author, @NotNull String description, @NotNull boolean isPublic, @NotNull double publicBuyFee) throws WorldEditException, IOException, InvalidConfigurationException {
+    public static void buildDream(@NonNull String publicID, @NonNull org.bukkit.World world, @NonNull Location loc1, @NonNull Location loc2, @NonNull UUID author, @NonNull String description, @NonNull boolean isPublic, @NonNull double publicBuyFee) throws WorldEditException, IOException, InvalidConfigurationException {
         com.sk89q.worldedit.world.World WEWorld = BukkitAdapter.adapt(world);
         BlockVector3 min = BlockVector3.at(loc1.getX(), loc1.getY(), loc1.getZ());
         BlockVector3 max = BlockVector3.at(loc2.getX(), loc2.getY(), loc2.getZ());
@@ -148,7 +148,7 @@ public class DreamControl {
         }
     }
 
-    public static void releaseDream(@NotNull String publicID, @NotNull UUID author) throws IOException, InvalidConfigurationException {
+    public static void releaseDream(@NonNull String publicID, @NonNull UUID author) throws IOException, InvalidConfigurationException {
 
         Player p = Bukkit.getPlayer(author);
 

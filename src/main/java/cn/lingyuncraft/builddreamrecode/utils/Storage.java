@@ -1,9 +1,8 @@
 package cn.lingyuncraft.builddreamrecode.utils;
 
 import cn.lingyuncraft.builddreamrecode.BuildDreamRecode;
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
 import lombok.Getter;
+import lombok.NonNull;
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -38,7 +37,7 @@ public class Storage {
         storage.save(getStorageYAMLFile(publicID));
     }
 
-    public static File getStorageYAMLFile(@NotNull String publicID) {
+    public static File getStorageYAMLFile(@NonNull String publicID) {
         if (Configuration.getServerServerType().equals("SURVIVAL")) {
             return new File(BuildDreamRecode.getInstance().getDataFolder().toString() + File.separator + "storage" + File.separator + publicID + File.separator + publicID + ".yml");
         } else {
@@ -46,7 +45,7 @@ public class Storage {
         }
     }
 
-    public static File getSchematicFile(@NotNull String publicID) {
+    public static File getSchematicFile(@NonNull String publicID) {
         if (Configuration.getServerServerType().equals("SURVIVAL")) {
             return new File(BuildDreamRecode.getInstance().getDataFolder().toString() + File.separator + "storage" + File.separator + publicID + File.separator + publicID + ".schematic");
         } else {
@@ -70,7 +69,7 @@ public class Storage {
         }
     }
 
-    public static void checkFileOrCreate(@Nullable File file) throws IOException {
+    public static void checkFileOrCreate(@NonNull File file) throws IOException {
         if (!file.exists()) {
             if (file.isDirectory()) {
                 file.mkdir();

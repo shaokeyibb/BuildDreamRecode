@@ -1,12 +1,10 @@
 package cn.lingyuncraft.builddreamrecode.utils;
 
-import com.sun.istack.internal.NotNull;
-
-
+import lombok.NonNull;
 
 public class PublicID {
 
-    public static int checkPublicID(@NotNull String publicID) {
+    public static int checkPublicID(@NonNull String publicID) {
         if (Storage.getDreamList().contains(publicID)) {
             return 1;//publicID被占用
         } else if (publicID.contains("/")
@@ -25,7 +23,7 @@ public class PublicID {
         }
     }
 
-    public static boolean hasPublicID(@NotNull String publicID) {
+    public static boolean hasPublicID(@NonNull String publicID) {
         return Storage.getSchematicFile(publicID).exists();
     }
 }
