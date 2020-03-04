@@ -32,7 +32,7 @@ public class CommandHandler implements CommandExecutor {
                         "--------筑梦系统使用帮助--------\n" +
                                 "以下指令中，[]为必填参数，<>为选填参数\n" +
                                 "/builddream help --- 显示使用帮助\n" +
-                                "/builddream create [公众ID] <梦境描述> <梦境商店出售价格> --- 筑梦，当填写“梦境商店出售价格”时即视为公开梦境到梦境商店\n" +
+                                "/builddream create [公众ID] <梦境描述> <筑梦市场授权费用> --- 筑梦，当填写“筑梦市场授权费用”时即视为公开梦境到梦境商店\n" +
                                 "/builddream release [公众ID] --- 释放梦境\n" +
                                 "/builddream snapshot [公众ID] --- 释放梦境预览\n" +
                                 "/builddream list <玩家名称> --- 检索自己或他人的所有梦境\n" +
