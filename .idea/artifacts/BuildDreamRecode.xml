@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="BuildDreamRecode">
+    <output-path>$PROJECT_DIR$/out/artifacts/BuildDreamRecode</output-path>
+    <root id="archive" name="BuildDreamRecode.jar">
+      <element id="module-output" name="BuildDreamRecode" />
+    </root>
+  </artifact>
+</component>

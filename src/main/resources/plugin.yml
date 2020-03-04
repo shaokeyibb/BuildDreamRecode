@@ -1,0 +1,13 @@
+name: BuildDreamRecode
+version: ${project.version}
+main: cn.lingyuncraft.builddreamrecode.BuildDreamRecode
+api-version: 1.13
+depend: [Vault, WorldEdit]
+softdepend: [CMI,CoreProtect]
+authors: [shaokeyibb]
+commands:
+  builddream:
+    description: "筑梦系统总命令"
+    usage: /builddream help
+    permission: "builddream.use"
+    permission-message: "筑梦系统>> 您没有权限执行此命令"

@@ -1,0 +1,23 @@
+FirstRun: true
+Enable: true
+EnablePublicShop: true
+Server:
+    ServerType: SURVIVAL
+    SurvivalServerPluginDatafolder: folderHere
+Hook:
+    Residence: true
+    WorldGuard: true
+    CMI:
+        CMIWorthSystem:
+            Enable: true
+            WorthFile: filename
+Price:
+    DefaultBuyPricePerItem: 10
+    DefaultPublicBuyFee: 200
+    BuildDreamPrice: 500
+    RedstoneExPrice: 200
+    BalanceExPriceMultiple: 1.0
+Check:
+    EnableBarrierCheck: true
+    EnableBedrockCheck: true
+    EnableRedstoneCheck: true
