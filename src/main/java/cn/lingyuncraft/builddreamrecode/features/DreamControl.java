@@ -40,6 +40,7 @@ public class DreamControl {
         Player user = Bukkit.getPlayer(author);
         Map<Material, Integer> blocks = new HashMap<>();
         List<Material> materials = new ArrayList<>();
+        List<Material> inventoryBlocks = new ArrayList<>();
 
         if (user == null) {
             plugin.lang.logError("筑梦", publicID, "作者 Player 对象为 null.");
@@ -81,8 +82,11 @@ public class DreamControl {
                 if (!user.hasPermission("BuildDream.bypass.CHEST")) {
                     if (BukkitAdapter.adapt(world, v).getBlock().getState() instanceof InventoryHolder) {
                         pass = false;
-                        plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "区域内存在可存放物品的方块(&c" + material.name() + "&7), 筑梦失败."));
-                        continue;
+                        if (!inventoryBlocks.contains(material)) {
+                            inventoryBlocks.add(material);
+                            plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "区域内存在可存放物品的方块(&c" + material.name() + "&7), 筑梦失败."));
+                            continue;
+                        }
                     }
                 }
                 if (!user.hasPermission("BuildDream.bypass.ORE")) {
