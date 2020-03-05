@@ -5,6 +5,8 @@ import lombok.NonNull;
 import org.serverct.parrot.parrotx.PPlugin;
 import org.serverct.parrot.parrotx.config.PConfig;
 
+import java.io.File;
+
 public class Worth extends PConfig {
 
     private static Worth worth;
@@ -18,6 +20,12 @@ public class Worth extends PConfig {
             worth = new Worth(BuildDreamRecode.getInstance());
         }
         return worth;
+    }
+
+    @Override
+    public void init() {
+        setFile(new File(Storage.get().getPluginFolder(), "Worth.yml"));
+        super.init();
     }
 
     @Override

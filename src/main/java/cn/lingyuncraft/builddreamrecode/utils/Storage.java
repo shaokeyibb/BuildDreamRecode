@@ -31,6 +31,12 @@ public class Storage extends PFolder {
     }
 
     @Override
+    public void init() {
+        super.folder = getFolder();
+        super.init();
+    }
+
+    @Override
     public void load(File file) {
         String key = BasicUtil.getNoExFileName(file.getName());
         dataMap.put(key, new Dream(new PID(plugin, "DREAM_" + key), file));
@@ -38,11 +44,7 @@ public class Storage extends PFolder {
 
     @Override
     public File getFolder() {
-        if (Configuration.GAMEMODE.equals("SURVIVAL")) {
-            return this.folder;
-        } else {
-            return new File(Configuration.DATAFOLDER + File.separator + "Storage");
-        }
+        return new File(getPluginFolder(), "Storage");
     }
 
     public File getPluginFolder() {
@@ -54,7 +56,7 @@ public class Storage extends PFolder {
     }
 
     public File getSchematicFile(String publicID) {
-        File folder = new File(getFolder().getAbsolutePath(), publicID);
+        File folder = new File(getFolder(), publicID);
         return new File(folder, publicID + ".schematic");
     }
 
