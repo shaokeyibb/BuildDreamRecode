@@ -8,6 +8,7 @@ import org.serverct.parrot.parrotx.config.PConfig;
 import org.serverct.parrot.parrotx.utils.TimeUtil;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 
 public class Logger extends PConfig {
@@ -29,6 +30,15 @@ public class Logger extends PConfig {
     public void init() {
         setFile(new File(Storage.get().getPluginFolder(), "Logger.yml"));
         super.init();
+    }
+
+    @Override
+    public void saveDefault() {
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void logBuild(String publicID, Player user) {

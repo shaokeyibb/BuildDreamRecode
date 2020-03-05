@@ -38,8 +38,11 @@ public class Storage extends PFolder {
 
     @Override
     public void load(File file) {
-        String key = BasicUtil.getNoExFileName(file.getName());
-        dataMap.put(key, new Dream(new PID(plugin, "DREAM_" + key), file));
+        File[] files = file.listFiles(pathname -> pathname.getName().endsWith(".yml"));
+        if (files != null && files.length != 0) {
+            String key = BasicUtil.getNoExFileName(file.getName());
+            dataMap.put(key, new Dream(new PID(plugin, "DREAM_" + key), file));
+        }
     }
 
     @Override
