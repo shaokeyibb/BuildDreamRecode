@@ -76,14 +76,14 @@ public class Dream implements PData, Timestamp {
         FileConfiguration data = YamlConfiguration.loadConfiguration(file);
         boolean check = data.getKeys(false).containsAll(Arrays.asList(
                 "Version",
-                "Author",
+                "author",
                 "Cost",
                 "Description",
-                "Redstone",
-                "Public",
-                "Fee",
+                "HasRedstone",
+                "IsPublic",
+                "PublicBuyFee",
                 "SavedTime",
-                "Blocks"
+                "BlockTotal"
         ));
         if (check) {
             this.version = data.getDouble("Version");
@@ -91,14 +91,14 @@ public class Dream implements PData, Timestamp {
             this.author = UUID.fromString(data.getString("Author"));
             this.cost = data.getDouble("Cost");
             this.description = data.getString("Description");
-            this.redstone = data.getBoolean("Redstone");
-            this.publicMode = data.getBoolean("Public");
-            this.fee = data.getDouble("Fee");
+            this.redstone = data.getBoolean("HasRedstone");
+            this.publicMode = data.getBoolean("IsPublic");
+            this.fee = data.getDouble("PublicBuyFee");
             this.buildTime = data.getLong("SavedTime");
 
             this.blocks = new HashMap<>();
             try {
-                ConfigurationSection blocks = data.getConfigurationSection("Blocks");
+                ConfigurationSection blocks = data.getConfigurationSection("BlockTotal");
                 for (String material : blocks.getKeys(false)) {
                     this.blocks.put(Material.valueOf(material.toUpperCase()), blocks.getInt(material));
                 }
