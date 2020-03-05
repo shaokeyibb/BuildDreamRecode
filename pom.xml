@@ -106,7 +106,7 @@
         <dependency>
             <groupId>com.github.Polar-Pumpkin</groupId>
             <artifactId>ParrotX</artifactId>
-            <version>461fbf38bc</version>
+            <version>e807f32819</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

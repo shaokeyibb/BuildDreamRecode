@@ -4,6 +4,7 @@ import cn.lingyuncraft.builddreamrecode.command.subcommand.*;
 import lombok.NonNull;
 import org.serverct.parrot.parrotx.PPlugin;
 import org.serverct.parrot.parrotx.command.CommandHandler;
+import org.serverct.parrot.parrotx.command.subcommands.HelpCommand;
 import org.serverct.parrot.parrotx.command.subcommands.ReloadCommand;
 
 public class BuildDreamCommand extends CommandHandler {
@@ -16,6 +17,7 @@ public class BuildDreamCommand extends CommandHandler {
         registerSubCommand("shop", new ShopCmd());
         registerSubCommand("snapshot", new SnapshotCmd());
         registerSubCommand("reload", new ReloadCommand("BuildDream.reload"));
+        registerSubCommand("help", new HelpCommand("BuildDream.use"));
     }
 
 }
