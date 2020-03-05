@@ -182,7 +182,7 @@ public class DreamControl {
                     plugin.lang.log("重读取失败，目标梦境可能不存在", LocaleUtil.Type.ERROR, false);
                     return;
                 } else {
-                    plugin.lang.log("重读取完成，继续进行释放操作", LocaleUtil.Type.INFO, false);
+                    plugin.lang.log("重读取完成，正继续进行释放操作", LocaleUtil.Type.INFO, false);
                 }
             }
             double cost = dream.cost;
