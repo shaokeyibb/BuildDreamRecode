@@ -8,6 +8,7 @@ import org.serverct.parrot.parrotx.PPlugin;
 import org.serverct.parrot.parrotx.config.PFolder;
 import org.serverct.parrot.parrotx.data.PID;
 import org.serverct.parrot.parrotx.utils.BasicUtil;
+import org.serverct.parrot.parrotx.utils.LocaleUtil;
 
 import java.io.File;
 import java.util.HashMap;
@@ -33,7 +34,27 @@ public class Storage extends PFolder {
     @Override
     public void init() {
         super.folder = getFolder();
-        super.init();
+        if (!folder.exists()) {
+            if (folder.mkdirs()) {
+                releaseDefaultData();
+                plugin.lang.log("未找到 &c" + getTypeName() + "&7, 已重新生成.", LocaleUtil.Type.WARN, false);
+            } else {
+                plugin.lang.log("尝试生成 &c" + getTypeName() + " &7失败.", LocaleUtil.Type.ERROR, false);
+            }
+        }
+        File[] files = folder.listFiles();
+        if (files == null || files.length == 0) {
+            releaseDefaultData();
+            files = folder.listFiles();
+        }
+        if (files != null && files.length != 0) {
+            for (File file : files) {
+                load(file);
+            }
+            plugin.lang.log("共加载 &c" + getTypeName() + " &7中的 &c" + files.length + " &7个数据文件.", LocaleUtil.Type.INFO, false);
+        } else {
+            plugin.lang.log("&c" + getTypeName() + " &7中没有数据可供加载.", LocaleUtil.Type.WARN, false);
+        }
     }
 
     @Override
