@@ -45,7 +45,7 @@ public class ShopInventoryHolder implements InventoryExecutor {
         if (item != null && item.getType() != Material.AIR) {
             Dream dream = dreamMap.getOrDefault(event.getSlot(), null);
             if (dream == null) {
-                plugin.lang.logError(LocaleUtil.GET, "GUI-Dream(筑梦商店中的梦境)", "Dream 对象为 null.");
+                plugin.lang.logError(LocaleUtil.GET, "GUI-Dream(筑梦市场中的梦境)", "Dream 对象为 null.");
                 return;
             }
             try {
@@ -146,7 +146,7 @@ public class ShopInventoryHolder implements InventoryExecutor {
             }
             return inv;
         } catch (Throwable e) {
-            plugin.lang.logError(LocaleUtil.LOAD, "GUI(筑梦商店)", e.toString());
+            plugin.lang.logError(LocaleUtil.LOAD, "GUI(筑梦市场)", e.toString());
             e.printStackTrace();
         }
         return Bukkit.createInventory(this, 0, "菜单初始化失败, 请联系管理员");
