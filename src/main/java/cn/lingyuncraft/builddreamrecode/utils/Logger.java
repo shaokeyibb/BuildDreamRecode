@@ -1,38 +1,47 @@
 package cn.lingyuncraft.builddreamrecode.utils;
 
 import cn.lingyuncraft.builddreamrecode.BuildDreamRecode;
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.YamlConfiguration;
+import lombok.NonNull;
+import org.bukkit.entity.Player;
+import org.serverct.parrot.parrotx.PPlugin;
+import org.serverct.parrot.parrotx.config.PConfig;
+import org.serverct.parrot.parrotx.utils.TimeUtil;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
 
-public class Logger {
+public class Logger extends PConfig {
 
-    static YamlConfiguration storage1 = new YamlConfiguration();
-    static YamlConfiguration storage2 = new YamlConfiguration();
+    private static Logger logger;
 
-    public static void logBuild(String publicID, UUID playerUUID) throws IOException, InvalidConfigurationException {
-        storage1.load(Storage.getPluginFolderPath() + File.separator + "logger.yml");
-        String playerName = Bukkit.getPlayer(playerUUID).getDisplayName();
-        String currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        storage1.set(publicID, null);
-        storage1.set(publicID + ".Build." + playerName, currentTime);
-        storage1.save(Storage.getPluginFolderPath() + File.separator + "logger.yml");
-        BuildDreamRecode.getInstance().getLogger().info(playerName + "创建梦境\"" + publicID + "\"成功");
+    public Logger(@NonNull PPlugin plugin) {
+        super(plugin, "Logger", "日志文件");
     }
 
-    public static void logRelease(String publicID, UUID playerUUID) throws IOException, InvalidConfigurationException {
-        storage1.load(Storage.getPluginFolderPath() + File.separator + "logger.yml");
-        String playerName = Bukkit.getPlayer(playerUUID).getDisplayName();
-        String currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        storage2.set(publicID, null);
-        storage2.set(publicID + ".Release." + playerName, currentTime);
-        storage2.save(Storage.getPluginFolderPath() + File.separator + "logger.yml");
-        BuildDreamRecode.getInstance().getLogger().info(playerName + "释放梦境\"" + publicID + "\"成功");
+    public static Logger get() {
+        if (logger == null) {
+            logger = new Logger(BuildDreamRecode.getInstance());
+        }
+        return logger;
+    }
+
+    @Override
+    public void init() {
+        setFile(new File(Storage.get().getPluginFolder(), "Logger.yml"));
+        super.init();
+    }
+
+    public void logBuild(String publicID, Player user) {
+        config.set(publicID, null);
+        config.set(publicID + ".Build." + user.getName(), TimeUtil.getDefaultFormatDate(new Date(System.currentTimeMillis())));
+        save();
+        plugin.lang.logAction("创建 " + user.getName() + " 的梦境", publicID);
+    }
+
+    public void logRelease(String publicID, Player user) {
+        config.set(publicID, null);
+        config.set(publicID + ".Release." + user.getName(), TimeUtil.getDefaultFormatDate(new Date(System.currentTimeMillis())));
+        save();
+        plugin.lang.logAction("释放 " + user.getName() + " 的梦境", publicID);
     }
 }

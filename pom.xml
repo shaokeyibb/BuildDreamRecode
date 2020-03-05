@@ -6,7 +6,7 @@
 
     <groupId>cn.lingyuncraft</groupId>
     <artifactId>BuildDreamRecode</artifactId>
-    <version>2.3-SNAPSHOT</version>
+    <version>2.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>BuildDreamRecode</name>
@@ -102,6 +102,12 @@
             <artifactId>ap</artifactId>
             <version>7.1.0</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.Polar-Pumpkin</groupId>
+            <artifactId>ParrotX</artifactId>
+            <version>461fbf38bc</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

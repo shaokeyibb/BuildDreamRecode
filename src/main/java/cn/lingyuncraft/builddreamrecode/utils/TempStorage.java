@@ -7,9 +7,8 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class TempStorage {
-
     @Getter
-    public static HashMap<UUID, Location> tempPos1 = new HashMap<>();
+    private static HashMap<UUID, Location> tempPos1 = new HashMap<>();
     @Getter
-    public static HashMap<UUID, Location> tempPos2 = new HashMap<>();
+    private static HashMap<UUID, Location> tempPos2 = new HashMap<>();
 }

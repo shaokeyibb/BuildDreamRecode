@@ -60,5 +60,8 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.bstats:bstats-bukkit:1.4" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.MilkBowl:VaultAPI:1.7" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.EngineHub.WorldEdit:ap:7.1.0" level="project" />
+    <orderEntry type="library" name="Maven: com.github.Polar-Pumpkin:ParrotX:461fbf38bc" level="project" />
+    <orderEntry type="library" name="Maven: com.scireum:parsii:1.5" level="project" />
+    <orderEntry type="library" name="Maven: com.github.WesJD.AnvilGUI:anvilgui:99a504a3bb" level="project" />
   </component>
 </module>

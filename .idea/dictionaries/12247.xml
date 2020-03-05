@@ -2,6 +2,12 @@
   <dictionary name="12247">
     <words>
       <w>builddream</w>
+      <w>commandblock</w>
+      <w>datafolder</w>
+      <w>ender</w>
+      <w>gamemode</w>
+      <w>redstone</w>
+      <w>worldguard</w>
     </words>
   </dictionary>
 </component>

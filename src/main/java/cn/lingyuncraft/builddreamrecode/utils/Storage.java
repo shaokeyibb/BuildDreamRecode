@@ -1,100 +1,70 @@
 package cn.lingyuncraft.builddreamrecode.utils;
 
 import cn.lingyuncraft.builddreamrecode.BuildDreamRecode;
+import cn.lingyuncraft.builddreamrecode.data.Dream;
 import lombok.Getter;
 import lombok.NonNull;
-import org.bukkit.Material;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.serverct.parrot.parrotx.PPlugin;
+import org.serverct.parrot.parrotx.config.PFolder;
+import org.serverct.parrot.parrotx.data.PID;
+import org.serverct.parrot.parrotx.utils.BasicUtil;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.UUID;
+import java.util.Map;
 
-public class Storage {
+public class Storage extends PFolder {
 
-    public static void saveStorageYAMLFile(String publicID, UUID author, double cost, String description, boolean hasRedstone, boolean isPublic, double publicBuyFee, HashMap<Material,Integer> MaterialNumber) throws IOException {
-        String currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        getStorageYAMLFile(publicID).createNewFile();
-        YamlConfiguration storage = new YamlConfiguration();
-        storage.set("Version",2.0);
-        storage.set("PublicID", publicID);
-        storage.set("author", author.toString());
-        storage.set("Cost", cost);
-        storage.set("Description", description);
-        storage.set("HasRedstone", hasRedstone);
-        storage.set("IsPublic", isPublic);
-        storage.set("PublicBuyFee", publicBuyFee);
-        storage.set("SavedTime", currentTime);
-        storage.set("BlockTotal",null);
-        for (Material m:MaterialNumber.keySet()){
-            storage.set("BlockTotal."+m,MaterialNumber.get(m));
-        }
-        storage.save(getStorageYAMLFile(publicID));
-    }
-
-    public static File getStorageYAMLFile(@NonNull String publicID) {
-        if (Configuration.getServerServerType().equals("SURVIVAL")) {
-            return new File(BuildDreamRecode.getInstance().getDataFolder().toString() + File.separator + "storage" + File.separator + publicID + File.separator + publicID + ".yml");
-        } else {
-            return new File(Configuration.getServerSurvivalServerPluginDatafolder() + File.separator + "storage" + File.separator + publicID + File.separator + publicID + ".yml");
-        }
-    }
-
-    public static File getSchematicFile(@NonNull String publicID) {
-        if (Configuration.getServerServerType().equals("SURVIVAL")) {
-            return new File(BuildDreamRecode.getInstance().getDataFolder().toString() + File.separator + "storage" + File.separator + publicID + File.separator + publicID + ".schematic");
-        } else {
-            return new File(Configuration.getServerSurvivalServerPluginDatafolder() + File.separator + "storage" + File.separator + publicID + File.separator + publicID + ".schematic");
-        }
-    }
-
-    public static String getPluginFolderPath() {
-        if (Configuration.getServerServerType().equals("SURVIVAL")) {
-            return BuildDreamRecode.getInstance().getDataFolder().toString();
-        } else {
-            return Configuration.getServerSurvivalServerPluginDatafolder();
-        }
-    }
-
-    public static File getStorageFolder() {
-        if (Configuration.getServerServerType().equals("SURVIVAL")) {
-            return new File(BuildDreamRecode.getInstance().getDataFolder().toString() + File.separator + "storage");
-        } else {
-            return new File(Configuration.getServerSurvivalServerPluginDatafolder() + File.separator + "storage");
-        }
-    }
-
-    public static void checkFileOrCreate(@NonNull File file) throws IOException {
-        if (!file.exists()) {
-            if (file.isDirectory()) {
-                file.mkdir();
-            } else if (file.isFile()) {
-                file.createNewFile();
-            }
-        }
-    }
-
+    private static Storage storage;
     @Getter
-    public static ArrayList<String> DreamList = new ArrayList<>();
+    private Map<String, Dream> dataMap = new HashMap<>();
 
-    public static void loadToDreamList() throws IOException, InvalidConfigurationException {
-        YamlConfiguration storage = new YamlConfiguration();
-        File file = Storage.getStorageFolder();
-        File[] fs = file.listFiles();
-        if (!(fs == null)) {
-            for (File f : fs) {
-                if (f.isDirectory()) {
-                    storage.load(Storage.getStorageYAMLFile(f.getName()));
-                    String publicID = storage.getString("PublicID");
-                    getDreamList().add(publicID);
-                }
-            }
+    public Storage(@NonNull PPlugin plugin) {
+        super(plugin, "Storage", "梦境数据文件夹");
+    }
+
+    public static Storage get() {
+        if (storage == null) {
+            storage = new Storage(BuildDreamRecode.getInstance());
         }
+        return storage;
+    }
+
+    @Override
+    public void load(File file) {
+        String key = BasicUtil.getNoExFileName(file.getName());
+        dataMap.put(key, new Dream(new PID(plugin, "DREAM_" + key), file));
+    }
+
+    @Override
+    public File getFolder() {
+        if (Configuration.GAMEMODE.equals("SURVIVAL")) {
+            return this.folder;
+        } else {
+            return new File(Configuration.DATAFOLDER + File.separator + "Storage");
+        }
+    }
+
+    public File getPluginFolder() {
+        if (Configuration.GAMEMODE.equals("SURVIVAL")) {
+            return plugin.getDataFolder();
+        } else {
+            return new File(Configuration.DATAFOLDER);
+        }
+    }
+
+    public File getSchematicFile(String publicID) {
+        File folder = new File(getFolder().getAbsolutePath(), publicID);
+        return new File(folder, publicID + ".schematic");
+    }
+
+    public Dream get(String publicID) {
+        return dataMap.getOrDefault(publicID, null);
+    }
+
+    public void save(Dream dream) {
+        dataMap.put(dream.publicID, dream);
+        dream.save();
     }
 }
 

@@ -1,0 +1,15 @@
+Plugin:
+  Prefix: "&9&l筑梦系统"
+  INFO: "&a>> "
+  WARN: "&e>> "
+  ERROR: "&c>> "
+  HelpMessage:
+    - "&7--------[&9&l筑梦系统&a使用帮助&7]--------"
+    - "  &7以下指令中, &f[]&7为&c&l必填&7参数, &f<>&7为&c&l选填&7参数."
+    - "  &d/builddream help &9--- &7显示使用帮助."
+    - "  &d/builddream create &f[&c公众ID&f] <&c梦境描述&f> <&c筑梦市场授权费用&f> &9--- &7筑梦, 若填写&c筑梦市场授权费用&7即视为公开梦境到梦境商店."
+    - "  &d/builddream release &f[&c公众ID&f] &9--- &7释放梦境."
+    - "  &d/builddream snapshot &f[&c公众ID&f] &9--- &7释放梦境预览."
+    - "  &d/builddream list &f<&c玩家名称&f> &9--- &7检索自己或他人的所有梦境."
+    - "  &d/builddream shop &9--- &7打开筑梦市场."
+    - "&7--------------------------------"

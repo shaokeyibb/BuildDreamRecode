@@ -1,83 +1,65 @@
 package cn.lingyuncraft.builddreamrecode;
 
+import cn.lingyuncraft.builddreamrecode.command.BuildDreamCommand;
 import cn.lingyuncraft.builddreamrecode.listener.InventoryGetter;
 import cn.lingyuncraft.builddreamrecode.listener.LocationSetter;
-import cn.lingyuncraft.builddreamrecode.manage.CommandHandler;
 import cn.lingyuncraft.builddreamrecode.utils.Configuration;
+import cn.lingyuncraft.builddreamrecode.utils.Logger;
 import cn.lingyuncraft.builddreamrecode.utils.Storage;
+import cn.lingyuncraft.builddreamrecode.utils.Worth;
+import lombok.Getter;
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
-import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.IOException;
+import org.serverct.parrot.parrotx.PPlugin;
+import org.serverct.parrot.parrotx.hooks.VaultUtil;
 
 
-public final class BuildDreamRecode extends JavaPlugin {
+public final class BuildDreamRecode extends PPlugin {
 
-    private static BuildDreamRecode plugin;
-    private static Economy econ = null;
+    @Getter
+    private VaultUtil vaultUtil;
 
     @Override
     public void onEnable() {
-        plugin = this;
+        super.onEnable();
+    }
+
+    @Override
+    protected void preload() {
+        pConfig = new Configuration(this);
+        pConfig.init();
+    }
+
+    @Override
+    protected void load() {
         getLogger().info("正在加载BuildDreamRecode，版本" + getDescription().getVersion());
-        try {
-            Configuration.checkFirstRun();
-        } catch (IOException | InvalidConfigurationException e) {
-            e.printStackTrace();
-        }
-        try {
-            Configuration.loadConfig();
-        } catch (IOException | InvalidConfigurationException e) {
-            e.printStackTrace();
-        }
-        Configuration.check();
-        try {
-            Storage.loadToDreamList();
-        } catch (IOException | InvalidConfigurationException e) {
-            e.printStackTrace();
+
+        vaultUtil = new VaultUtil(this, true);
+        Storage.get().init();
+        Logger.get().init();
+        Worth.get().init();
+
+        super.registerCommand("builddream", new BuildDreamCommand(this));
+
+        if (!vaultUtil.isHooks()) {
+            Bukkit.getPluginManager().disablePlugin(this);
         }
 
-        if (!setupEconomy()) {
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-
-        Bukkit.getPluginManager().registerEvents(new LocationSetter(), this);
-        Bukkit.getPluginManager().registerEvents(new InventoryGetter(), this);
-        Bukkit.getPluginCommand("builddream").setExecutor(new CommandHandler());
         getLogger().info("加载完成，作者贺兰星辰，本插件仅用于繁星工坊服务器内部使用！");
     }
 
     @Override
+    protected void registerListener() {
+        Bukkit.getPluginManager().registerEvents(new LocationSetter(), this);
+        Bukkit.getPluginManager().registerEvents(new InventoryGetter(), this);
+    }
+
+    @Override
     public void onDisable() {
+        super.onDisable();
         getLogger().info("插件已卸载");
-    }
-
-
-    public static BuildDreamRecode getInstance() {
-        return plugin;
-    }
-
-    private boolean setupEconomy() {
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
-            return false;
-        }
-        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null) {
-            return false;
-        }
-        econ = rsp.getProvider();
-        return econ != null;
-    }
-
-    public static Economy getEconomy() {
-        return econ;
     }
 
     public CoreProtectAPI getCoreProtect() {
@@ -90,7 +72,7 @@ public final class BuildDreamRecode extends JavaPlugin {
 
         // Check that the API is enabled
         CoreProtectAPI CoreProtect = ((net.coreprotect.CoreProtect) plugin).getAPI();
-        if (CoreProtect.isEnabled() == false) {
+        if (!CoreProtect.isEnabled()) {
             return null;
         }
 

@@ -34,8 +34,8 @@ public class WorldEditUtils {
             Operations.complete(forwardExtentCopy);
         }
 
-        File file = Storage.getSchematicFile(publicID);
-        File folder = new File(Storage.getStorageFolder().getPath() + File.separator + publicID);
+        File file = Storage.get().getSchematicFile(publicID);
+        File folder = new File(Storage.get().getFolder().getPath() + File.separator + publicID);
         folder.mkdir();
         file.createNewFile();
         try (ClipboardWriter writer = BuiltInClipboardFormat.SPONGE_SCHEMATIC.getWriter(new FileOutputStream(file))) {
@@ -44,7 +44,7 @@ public class WorldEditUtils {
     }
 
     public static Clipboard getSchematicFromFile(@NonNull String publicID) {
-        File file = Storage.getSchematicFile(publicID);
+        File file = Storage.get().getSchematicFile(publicID);
         Clipboard clipboard = null;
         ClipboardFormat format = ClipboardFormats.findByFile(file);
         try (ClipboardReader reader = format.getReader(new FileInputStream(file))) {
