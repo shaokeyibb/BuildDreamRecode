@@ -26,7 +26,7 @@ import java.util.*;
 
 public class DreamControl {
 
-    public static void buildDream(@NonNull String publicID, @NonNull org.bukkit.World world, @NonNull Location loc1, @NonNull Location loc2, @NonNull UUID author, @NonNull String description, @NonNull boolean isPublic, @NonNull double publicBuyFee) throws WorldEditException, IOException, InvalidConfigurationException {
+    public static void buildDream(@NonNull String publicID, @NonNull org.bukkit.World world, @NonNull Location loc1, @NonNull Location loc2, @NonNull UUID author, @NonNull String description, @NonNull boolean isPublic, @NonNull double publicBuyFee) throws WorldEditException, IOException {
         BuildDreamRecode plugin = (BuildDreamRecode) BuildDreamRecode.getInstance();
         com.sk89q.worldedit.world.World WEWorld = BukkitAdapter.adapt(world);
         BlockVector3 min = BlockVector3.at(loc1.getX(), loc1.getY(), loc1.getZ());
@@ -175,8 +175,13 @@ public class DreamControl {
         } else {
             Dream dream = Storage.get().get(publicID);
             if (dream == null) {
-                plugin.lang.logError("筑梦", publicID, "Dream 对象为 null.");
-                return;
+                plugin.lang.logError("筑梦", publicID, "Dream 对象为 null.尝试重新读取");
+                Storage.get().reload(publicID);
+                dream = Storage.get().get(publicID);
+                if (dream == null) {
+                    plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.INFO, "目标梦境不存在或未被加载"));
+                    return;
+                }
             }
             double cost = dream.cost;
             boolean hasRedstone = dream.redstone;
