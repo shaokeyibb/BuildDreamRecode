@@ -16,7 +16,6 @@ import net.coreprotect.CoreProtectAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
 import org.serverct.parrot.parrotx.utils.LocaleUtil;
@@ -175,12 +174,15 @@ public class DreamControl {
         } else {
             Dream dream = Storage.get().get(publicID);
             if (dream == null) {
-                plugin.lang.logError("筑梦", publicID, "Dream 对象为 null.尝试重新读取");
-                Storage.get().reload(publicID);
+                plugin.lang.logError("筑梦", publicID, "Dream 对象为 null.正尝试重新读取");
+                Storage.get().initWithSilent();
                 dream = Storage.get().get(publicID);
                 if (dream == null) {
                     plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.INFO, "目标梦境不存在或未被加载"));
+                    plugin.lang.log("重读取失败，目标梦境可能不存在", LocaleUtil.Type.ERROR, false);
                     return;
+                } else {
+                    plugin.lang.log("重读取完成，继续进行释放操作", LocaleUtil.Type.INFO, false);
                 }
             }
             double cost = dream.cost;

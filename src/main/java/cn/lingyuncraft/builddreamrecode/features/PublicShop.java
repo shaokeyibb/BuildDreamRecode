@@ -12,7 +12,7 @@ public class PublicShop {
     public static String SHOP_TITLE = "§6§l筑梦市场";
 
     public static void sendGUI(Player player) {
-        Storage.get().reloadAll();
+        Storage.get().initWithSilent();
         new BukkitRunnable() {
             @Override
             public void run() {

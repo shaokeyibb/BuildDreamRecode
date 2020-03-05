@@ -94,5 +94,24 @@ public class Storage extends PFolder {
         dataMap.put(dream.publicID, dream);
         dream.save();
     }
+
+    public void initWithSilent() {
+        super.folder = getFolder();
+        if (!folder.exists()) {
+            if (folder.mkdirs()) {
+                releaseDefaultData();
+            }
+        }
+        File[] files = folder.listFiles();
+        if (files == null || files.length == 0) {
+            releaseDefaultData();
+            files = folder.listFiles();
+        }
+        if (files != null && files.length != 0) {
+            for (File file : files) {
+                load(file);
+            }
+        }
+    }
 }
 
