@@ -26,8 +26,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="worldedit-bukkit-7.1.0-rc-1" level="project" />
     <orderEntry type="library" name="CMI8.6.19.1" level="project" />
-    <orderEntry type="library" name="ProtocolLib" level="project" />
-    <orderEntry type="library" name="patched_1.15.2" level="project" />
     <orderEntry type="library" name="Vault" level="project" />
     <orderEntry type="library" name="CoreProtect-2.18.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.destroystokyo.paper:paper-api:1.15.2-R0.1-SNAPSHOT" level="project" />

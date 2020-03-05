@@ -88,7 +88,7 @@ public class Dream implements PData, Timestamp {
         if (check) {
             this.version = data.getDouble("Version");
             this.publicID = getFileName();
-            this.author = UUID.fromString(data.getString("Author"));
+            this.author = UUID.fromString(data.getString("author"));
             this.cost = data.getDouble("Cost");
             this.description = data.getString("Description");
             this.redstone = data.getBoolean("HasRedstone");
@@ -123,15 +123,15 @@ public class Dream implements PData, Timestamp {
         }
         FileConfiguration data = YamlConfiguration.loadConfiguration(file);
         data.set("Version", this.version);
-        data.set("Author", this.author.toString());
+        data.set("author", this.author.toString());
         data.set("Cost", this.cost);
         data.set("Description", this.description);
-        data.set("Redstone", this.redstone);
-        data.set("Public", this.publicMode);
-        data.set("Fee", this.fee);
+        data.set("HasRedstone", this.redstone);
+        data.set("IsPublic", this.publicMode);
+        data.set("PublicBuyFee", this.fee);
         data.set("SavedTime", this.buildTime);
 
-        ConfigurationSection blocks = data.createSection("Blocks");
+        ConfigurationSection blocks = data.createSection("BlockTotal");
         for (Material material : this.blocks.keySet()) {
             blocks.set(material.toString(), this.blocks.get(material));
         }
