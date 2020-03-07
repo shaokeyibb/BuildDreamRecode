@@ -87,6 +87,9 @@ public class Storage extends PFolder {
     }
 
     public Dream get(String publicID) {
+        if (!dataMap.containsKey(publicID)) {
+            initWithSilent();
+        }
         return dataMap.getOrDefault(publicID, null);
     }
 
@@ -98,15 +101,11 @@ public class Storage extends PFolder {
     public void initWithSilent() {
         super.folder = getFolder();
         if (!folder.exists()) {
-            if (folder.mkdirs()) {
-                releaseDefaultData();
+            if (!folder.mkdirs()) {
+                plugin.lang.logError(I18n.LOAD, getTypeName(), "无法新建文件夹.");
             }
         }
         File[] files = folder.listFiles();
-        if (files == null || files.length == 0) {
-            releaseDefaultData();
-            files = folder.listFiles();
-        }
         if (files != null && files.length != 0) {
             for (File file : files) {
                 load(file);

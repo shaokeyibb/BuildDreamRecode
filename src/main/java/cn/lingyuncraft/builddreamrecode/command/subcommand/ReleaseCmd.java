@@ -1,7 +1,9 @@
 package cn.lingyuncraft.builddreamrecode.command.subcommand;
 
+import cn.lingyuncraft.builddreamrecode.data.Dream;
 import cn.lingyuncraft.builddreamrecode.features.DreamControl;
 import cn.lingyuncraft.builddreamrecode.utils.PublicID;
+import cn.lingyuncraft.builddreamrecode.utils.Storage;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.serverct.parrot.parrotx.PPlugin;
@@ -25,8 +27,14 @@ public class ReleaseCmd implements PCommand {
                 if (!PublicID.hasPublicID(args[1])) {
                     I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "目标公众ID无效."));
                 } else {
-                    DreamControl.releaseDream(args[1], user.getUniqueId());
-                    return true;
+                    Dream dream = Storage.get().get(args[1]);
+                    if (dream != null) {
+                        if (user.getUniqueId().toString().equals(dream.author.toString())) {
+                            DreamControl.releaseDream(args[1], user.getUniqueId());
+                        }
+                    } else {
+                        I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "未找到梦境对象."));
+                    }
                 }
             }
         } else {
