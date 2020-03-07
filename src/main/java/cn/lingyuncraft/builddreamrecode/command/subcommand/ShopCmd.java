@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.serverct.parrot.parrotx.PPlugin;
 import org.serverct.parrot.parrotx.command.PCommand;
-import org.serverct.parrot.parrotx.utils.LocaleUtil;
+import org.serverct.parrot.parrotx.utils.I18n;
 
 public class ShopCmd implements PCommand {
     @Override
@@ -19,13 +19,13 @@ public class ShopCmd implements PCommand {
         if (sender instanceof Player) {
             Player user = (Player) sender;
             if (!Configuration.GLOBAL_SHOP) {
-                plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "筑梦商店未开放."));
+                I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "筑梦商店未开放."));
                 return true;
             } else {
                 PublicShop.sendGUI(user);
             }
         } else {
-            sender.sendMessage(plugin.lang.build(plugin.localeKey, LocaleUtil.Type.ERROR, "您不能在控制台运行该指令."));
+            sender.sendMessage(plugin.lang.build(plugin.localeKey, I18n.Type.ERROR, "您不能在控制台运行该指令."));
         }
         return true;
     }

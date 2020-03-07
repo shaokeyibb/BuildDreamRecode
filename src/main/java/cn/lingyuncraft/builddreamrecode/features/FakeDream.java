@@ -10,7 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.serverct.parrot.parrotx.PPlugin;
-import org.serverct.parrot.parrotx.utils.LocaleUtil;
+import org.serverct.parrot.parrotx.utils.I18n;
 
 public class FakeDream {
 
@@ -25,6 +25,6 @@ public class FakeDream {
             user.sendBlockChange(location, data);
         }
 
-        plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.INFO, "公众ID为 &c" + publicID + " &7的筑梦预览已释放, 如需取消预览请重新连接到服务器."));
+        I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.INFO, "公众ID为 &c" + publicID + " &7的筑梦预览已释放, 如需取消预览请重新连接到服务器."));
     }
 }

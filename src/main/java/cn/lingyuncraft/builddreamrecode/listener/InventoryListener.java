@@ -7,7 +7,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.inventory.InventoryHolder;
 
-public class InventoryGetter implements Listener {
+public class InventoryListener implements Listener {
 
     @EventHandler
     public void onPlayerClick(InventoryClickEvent e) {

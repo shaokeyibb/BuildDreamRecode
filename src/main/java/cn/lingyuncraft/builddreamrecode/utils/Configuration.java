@@ -6,7 +6,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.serverct.parrot.parrotx.PPlugin;
 import org.serverct.parrot.parrotx.config.PConfig;
-import org.serverct.parrot.parrotx.utils.LocaleUtil;
+import org.serverct.parrot.parrotx.utils.I18n;
 
 import java.io.File;
 
@@ -34,6 +34,10 @@ public class Configuration extends PConfig {
         super(plugin, "config", "主配置文件");
     }
 
+    public static double price(Material material) {
+        return Worth.get().getConfig().getDouble("Worth." + material, -1);
+    }
+
     @Override
     public void saveDefault() {
         plugin.saveDefaultConfig();
@@ -42,7 +46,7 @@ public class Configuration extends PConfig {
     @Override
     public void load(@NonNull File file) {
         if (!config.getBoolean("Enable")) {
-            plugin.lang.log("插件未设置开启, 自动关闭...", LocaleUtil.Type.ERROR, false);
+            plugin.lang.log("插件未设置开启, 自动关闭...", I18n.Type.ERROR, false);
             plugin.getPluginLoader().disablePlugin(BuildDreamRecode.getInstance());
         } else {
             GLOBAL_SHOP = config.getBoolean("Shop");
@@ -63,14 +67,10 @@ public class Configuration extends PConfig {
             CHECK_REDSTONE = config.getBoolean("Check.Redstone");
 
             if (Configuration.GAMEMODE.equals(GameMode.SURVIVAL.toString())) {
-                plugin.lang.log("本服务器正在使用 &c生存服 &7模式运行.", LocaleUtil.Type.INFO, false);
+                plugin.lang.log("本服务器正在使用 &c生存服 &7模式运行.", I18n.Type.INFO, false);
             } else {
-                plugin.lang.log("本服务器正在使用 &a创造服 &7模式运行.", LocaleUtil.Type.INFO, false);
+                plugin.lang.log("本服务器正在使用 &a创造服 &7模式运行.", I18n.Type.INFO, false);
             }
         }
-    }
-
-    public static double price(Material material) {
-        return Worth.get().getConfig().getDouble("Worth." + material, -1);
     }
 }

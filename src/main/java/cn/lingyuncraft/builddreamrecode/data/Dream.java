@@ -12,7 +12,7 @@ import org.serverct.parrot.parrotx.data.PData;
 import org.serverct.parrot.parrotx.data.PID;
 import org.serverct.parrot.parrotx.flags.Timestamp;
 import org.serverct.parrot.parrotx.utils.BasicUtil;
-import org.serverct.parrot.parrotx.utils.LocaleUtil;
+import org.serverct.parrot.parrotx.utils.I18n;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,12 +20,6 @@ import java.util.*;
 
 public class Dream implements PData, Timestamp {
 
-    private PPlugin plugin;
-
-    private PID id;
-    private File file;
-
-    private double version;
     public String publicID;
     public UUID author;
     public double cost;
@@ -33,6 +27,10 @@ public class Dream implements PData, Timestamp {
     public boolean redstone;
     public boolean publicMode;
     public double fee;
+    private PPlugin plugin;
+    private PID id;
+    private File file;
+    private double version;
     private long buildTime;
     private Map<Material, Integer> blocks;
 
@@ -103,10 +101,10 @@ public class Dream implements PData, Timestamp {
                     this.blocks.put(Material.valueOf(material.toUpperCase()), blocks.getInt(material));
                 }
             } catch (Throwable e) {
-                plugin.lang.logError(LocaleUtil.LOAD, getTypeName(), e.toString());
+                plugin.lang.logError(I18n.LOAD, getTypeName(), e.toString());
             }
         } else {
-            plugin.lang.logError(LocaleUtil.LOAD, getTypeName(), "数据文件不完整.");
+            plugin.lang.logError(I18n.LOAD, getTypeName(), "数据文件不完整.");
         }
     }
 
@@ -139,7 +137,7 @@ public class Dream implements PData, Timestamp {
         try {
             data.save(file);
         } catch (IOException e) {
-            plugin.lang.logError(LocaleUtil.SAVE, getTypeName(), e.toString());
+            plugin.lang.logError(I18n.SAVE, getTypeName(), e.toString());
             e.printStackTrace();
         }
     }
@@ -152,18 +150,18 @@ public class Dream implements PData, Timestamp {
                 "&7----------"
         };
         List<String> result = new ArrayList<>(Arrays.asList(info));
-        result.replaceAll(s -> plugin.lang.color(s));
+        result.replaceAll(I18n::color);
         return result;
     }
 
     @Override
     public void init() {
-        plugin.lang.logError(LocaleUtil.SAVE, getTypeName(), "尝试调用 init() 方法.");
+        plugin.lang.logError(I18n.SAVE, getTypeName(), "尝试调用 init() 方法.");
     }
 
     @Override
     public void saveDefault() {
-        plugin.lang.logError(LocaleUtil.SAVE, getTypeName(), "尝试调用 saveDefault() 方法.");
+        plugin.lang.logError(I18n.SAVE, getTypeName(), "尝试调用 saveDefault() 方法.");
     }
 
     @Override

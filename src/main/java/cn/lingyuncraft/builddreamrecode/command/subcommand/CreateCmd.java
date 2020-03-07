@@ -5,11 +5,10 @@ import cn.lingyuncraft.builddreamrecode.utils.PublicID;
 import cn.lingyuncraft.builddreamrecode.utils.TempStorage;
 import com.sk89q.worldedit.WorldEditException;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.serverct.parrot.parrotx.PPlugin;
 import org.serverct.parrot.parrotx.command.PCommand;
-import org.serverct.parrot.parrotx.utils.LocaleUtil;
+import org.serverct.parrot.parrotx.utils.I18n;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -26,11 +25,11 @@ public class CreateCmd implements PCommand {
             Player user = (Player) sender;
             UUID uuid = user.getUniqueId();
             if (TempStorage.getTempPos1().get(uuid) == null || TempStorage.getTempPos1().get(uuid) == null) {
-                plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "请先用木剑完成选区后再筑梦."));
+                I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "请先用木剑完成选区后再筑梦."));
             } else {
                 switch (args.length) {
                     case 1:
-                        plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "请填写公众ID."));
+                        I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "请填写公众ID."));
                         break;
                     case 2:
                         buildDream(plugin, user, args[1], null, 0.0D);
@@ -49,7 +48,7 @@ public class CreateCmd implements PCommand {
                 }
             }
         } else {
-            sender.sendMessage(plugin.lang.build(plugin.localeKey, LocaleUtil.Type.ERROR, "您不能在控制台运行该指令."));
+            sender.sendMessage(plugin.lang.build(plugin.localeKey, I18n.Type.ERROR, "您不能在控制台运行该指令."));
         }
         return true;
     }
@@ -64,10 +63,10 @@ public class CreateCmd implements PCommand {
         int checkResult = PublicID.checkPublicID(publicID);
         switch (checkResult) {
             case 1:
-                plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "公众ID已被占用, 换一个试试."));
+                I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "公众ID已被占用, 换一个试试."));
                 break;
             case 2:
-                plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "公众ID含有非法字符, 请检查后重新输入!"));
+                I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "公众ID含有非法字符, 请检查后重新输入!"));
                 break;
             case 0:
                 try {

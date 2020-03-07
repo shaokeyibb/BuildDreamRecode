@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.serverct.parrot.parrotx.PPlugin;
 import org.serverct.parrot.parrotx.command.PCommand;
-import org.serverct.parrot.parrotx.utils.LocaleUtil;
+import org.serverct.parrot.parrotx.utils.I18n;
 
 public class SnapshotCmd implements PCommand {
     @Override
@@ -19,16 +19,16 @@ public class SnapshotCmd implements PCommand {
         if (sender instanceof Player) {
             Player user = (Player) sender;
             if (args.length == 1) {
-                plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "请填写公众ID."));
+                I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "请填写公众ID."));
             } else {
                 if (!PublicID.hasPublicID(args[1])) {
-                    plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.ERROR, "目标公众ID无效."));
+                    I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.ERROR, "目标公众ID无效."));
                 } else {
                     FakeDream.sendFakeDream(user, args[1]);
                 }
             }
         } else {
-            sender.sendMessage(plugin.lang.build(plugin.localeKey, LocaleUtil.Type.ERROR, "您不能在控制台运行该指令."));
+            sender.sendMessage(plugin.lang.build(plugin.localeKey, I18n.Type.ERROR, "您不能在控制台运行该指令."));
         }
         return true;
     }

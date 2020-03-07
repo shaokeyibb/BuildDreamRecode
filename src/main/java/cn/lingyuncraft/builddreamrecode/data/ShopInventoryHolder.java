@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.serverct.parrot.parrotx.PPlugin;
-import org.serverct.parrot.parrotx.utils.LocaleUtil;
+import org.serverct.parrot.parrotx.utils.I18n;
 
 import java.util.*;
 
@@ -25,10 +25,8 @@ import static org.bukkit.Material.CHEST;
 
 public class ShopInventoryHolder implements InventoryExecutor {
 
-    private PPlugin plugin;
-
     protected Inventory inventory;
-
+    private PPlugin plugin;
     private Map<Integer, Dream> dreamMap = new HashMap<>();
 
     public ShopInventoryHolder() {
@@ -45,21 +43,21 @@ public class ShopInventoryHolder implements InventoryExecutor {
         if (item != null && item.getType() != Material.AIR) {
             Dream dream = dreamMap.getOrDefault(event.getSlot(), null);
             if (dream == null) {
-                plugin.lang.logError(LocaleUtil.GET, "GUI-Dream(筑梦市场中的梦境)", "Dream 对象为 null.");
+                plugin.lang.logError(I18n.GET, "GUI-Dream(筑梦市场中的梦境)", "Dream 对象为 null.");
                 return;
             }
             try {
                 if (user.getUniqueId().toString().equals(dream.author.toString())) {
-                    plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "您不能购买自己的梦境."));
+                    I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "您不能购买自己的梦境."));
                 } else {
                     double cost = dream.cost + dream.fee;
                     double money = ((BuildDreamRecode) plugin).getVaultUtil().getBalances(user);
                     if (clickType == ClickType.LEFT || clickType == ClickType.SHIFT_LEFT) {
                         if (money < cost) {
-                            plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "释放梦境失败, 您没有足够的金币支付筑梦和授权费用."));
+                            I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "释放梦境失败, 您没有足够的金币支付筑梦和授权费用."));
                         } else {
                             ((BuildDreamRecode) plugin).getVaultUtil().take(user, dream.fee);
-                            plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "已扣除筑梦授权费 &c" + dream.fee + " &7金币."));
+                            I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "已扣除筑梦授权费 &c" + dream.fee + " &7金币."));
 
                             RegisteredServiceProvider<Economy> rsp = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
                             if (rsp != null) {
@@ -69,7 +67,7 @@ public class ShopInventoryHolder implements InventoryExecutor {
 
                                 Player author = Bukkit.getPlayer(dream.author);
                                 if (author != null) {
-                                    plugin.lang.send(author, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "您收到了来自 &a" + user.getName() + " &7的筑梦授权费 &c" + permission + " &7金币."));
+                                    I18n.send(author, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "您收到了来自 &a" + user.getName() + " &7的筑梦授权费 &c" + permission + " &7金币."));
                                 }
                             }
 
@@ -106,7 +104,7 @@ public class ShopInventoryHolder implements InventoryExecutor {
                         String color = colors.get(new Random().nextInt(colors.size())).name();
                         icon = Material.valueOf(color + "_BED");
                     } catch (Throwable e) {
-                        plugin.lang.logError(LocaleUtil.LOAD, "GUI(筑梦市场)", e.toString());
+                        plugin.lang.logError(I18n.LOAD, "GUI(筑梦市场)", e.toString());
                     }
                     ItemStack itemStack = new ItemStack(icon, 1);
                     ItemMeta itemMeta = itemStack.getItemMeta();
@@ -134,7 +132,7 @@ public class ShopInventoryHolder implements InventoryExecutor {
                     };
 
                     List<String> lore = new ArrayList<>(Arrays.asList(loreFormat));
-                    lore.replaceAll(s -> plugin.lang.color(s));
+                    lore.replaceAll(I18n::color);
 
                     itemMeta.setLore(lore);
                     itemStack.setItemMeta(itemMeta);
@@ -146,7 +144,7 @@ public class ShopInventoryHolder implements InventoryExecutor {
             }
             return inv;
         } catch (Throwable e) {
-            plugin.lang.logError(LocaleUtil.LOAD, "GUI(筑梦市场)", e.toString());
+            plugin.lang.logError(I18n.LOAD, "GUI(筑梦市场)", e.toString());
             e.printStackTrace();
         }
         return Bukkit.createInventory(this, 0, "菜单初始化失败, 请联系管理员");

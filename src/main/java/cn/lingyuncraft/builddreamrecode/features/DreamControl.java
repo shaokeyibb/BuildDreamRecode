@@ -18,7 +18,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
-import org.serverct.parrot.parrotx.utils.LocaleUtil;
+import org.serverct.parrot.parrotx.utils.I18n;
 
 import java.io.IOException;
 import java.util.*;
@@ -47,35 +47,35 @@ public class DreamControl {
         }
 
         if (Configuration.GAMEMODE.equals("SURVIVAL")) {
-            plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "生存服无法筑梦, 请前往创造服筑梦."));
+            I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "生存服无法筑梦, 请前往创造服筑梦."));
         } else {
             for (BlockVector3 v : region) {
                 Material material = BukkitAdapter.adapt(world, v).getBlock().getType();
 
                 if (Configuration.CHECK_BEDROCK && !user.hasPermission("BuildDream.bypass.BEDROCK") && material == Material.BEDROCK) {
                     pass = false;
-                    plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "区域内存在基岩, 筑梦失败."));
+                    I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "区域内存在基岩, 筑梦失败."));
                     break;
                 }
                 if (Configuration.CHECK_BARRIER && !user.hasPermission("BuildDream.bypass.BARRIER") && material == Material.BARRIER) {
                     pass = false;
-                    plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "区域内存在屏障, 筑梦失败."));
+                    I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "区域内存在屏障, 筑梦失败."));
                     break;
                 }
                 if (!user.hasPermission("BuildDream.bypass.COMMANDBLOCK")) {
                     if (material == Material.COMMAND_BLOCK || material == Material.CHAIN_COMMAND_BLOCK || material == Material.REPEATING_COMMAND_BLOCK) {
                         pass = false;
-                        plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "区域内存在命令方块, 筑梦失败."));
+                        I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "区域内存在命令方块, 筑梦失败."));
                         break;
                     } else if (material == Material.STRUCTURE_BLOCK || material == Material.STRUCTURE_VOID) {
                         pass = false;
-                        plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "区域内存在结构方块, 筑梦失败."));
+                        I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "区域内存在结构方块, 筑梦失败."));
                         break;
                     }
                 }
                 if (!user.hasPermission("BuildDream.bypass.ENDER") && material == Material.END_PORTAL_FRAME) {
                     pass = false;
-                    plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "区域内存在末地传送门, 筑梦失败."));
+                    I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "区域内存在末地传送门, 筑梦失败."));
                     break;
                 }
                 if (!user.hasPermission("BuildDream.bypass.CHEST")) {
@@ -83,7 +83,7 @@ public class DreamControl {
                         pass = false;
                         if (!inventoryBlocks.contains(material)) {
                             inventoryBlocks.add(material);
-                            plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "区域内存在可存放物品的方块(&c" + material.name() + "&7), 筑梦失败."));
+                            I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "区域内存在可存放物品的方块(&c" + material.name() + "&7), 筑梦失败."));
                             continue;
                         }
                     }
@@ -99,7 +99,7 @@ public class DreamControl {
                         case LAPIS_ORE:
                         case NETHER_QUARTZ_ORE:
                             pass = false;
-                            plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "区域内存在矿物, 筑梦失败."));
+                            I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "区域内存在矿物, 筑梦失败."));
                             break;
                     }
                 }
@@ -122,7 +122,7 @@ public class DreamControl {
                     pass = false;
                     if (!materials.contains(material)) {
                         materials.add(material);
-                        plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "区域内存在未注册至筑梦价格表的方块(&c" + material + "&7), 筑梦失败"));
+                        I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "区域内存在未注册至筑梦价格表的方块(&c" + material + "&7), 筑梦失败"));
                     }
                     continue;
                 }
@@ -135,18 +135,18 @@ public class DreamControl {
             if (!pass) {
                 return;
             }
-            plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.INFO, "方块价值统计:"));
+            I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.INFO, "方块价值统计:"));
             for (Material material : blocks.keySet()) {
                 double single = Configuration.price(material);
                 double total = single * blocks.get(material);
                 String report = "  &c" + material + " &7▶ " + "&c" + blocks.get(material) + " &7块, " + "共 &c" + total + " &7金币. (" + single + "/块)";
-                plugin.lang.send(user, plugin.lang.color(report));
+                I18n.send(user, I18n.color(report));
             }
 
             double money = plugin.getVaultUtil().getBalances(user);
             double buildCost = Configuration.PRICE_BUILDDREAM;
             if (money < buildCost && !user.hasPermission("BuildDream.bypass.BuildDreamPrice")) {
-                plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "筑梦失败, 您没有足够的金币支付 &c" + buildCost + " &7金币的筑梦手续费, 您当前拥有 &c" + money + " &7金币."));
+                I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "筑梦失败, 您没有足够的金币支付 &c" + buildCost + " &7金币的筑梦手续费, 您当前拥有 &c" + money + " &7金币."));
             } else {
                 plugin.getVaultUtil().take(user, buildCost);
 
@@ -155,7 +155,7 @@ public class DreamControl {
                 Logger.get().logBuild(publicID, user);
 
                 money = plugin.getVaultUtil().getBalances(user);
-                plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.INFO, "筑梦成功, 释放梦境价格共 &c" + cost + " &7金币, 扣除筑梦手续费 &c" + buildCost + " &7金币后您当前剩余 &c" + money + " &7金币."));
+                I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.INFO, "筑梦成功, 释放梦境价格共 &c" + cost + " &7金币, 扣除筑梦手续费 &c" + buildCost + " &7金币后您当前剩余 &c" + money + " &7金币."));
             }
         }
     }
@@ -170,20 +170,20 @@ public class DreamControl {
         }
 
         if (Configuration.GAMEMODE.equals("CREATIVE")) {
-            plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "请勿在创造服释放梦境, 请前往生存服释放."));
+            I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "请勿在创造服释放梦境, 请前往生存服释放."));
         } else {
             Dream dream = Storage.get().get(publicID);
             if (dream == null) {
                 plugin.lang.logError("筑梦", publicID, "Dream 对象为 null.");
-                plugin.lang.log("正尝试刷新筑梦列表以检索目标梦境是否存在", LocaleUtil.Type.INFO, false);
+                plugin.lang.log("正尝试刷新筑梦列表以检索目标梦境是否存在", I18n.Type.INFO, false);
                 Storage.get().initWithSilent();
                 dream = Storage.get().get(publicID);
                 if (dream == null) {
-                    plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.INFO, "目标梦境不存在或未被加载"));
-                    plugin.lang.log("重读取失败，目标梦境可能不存在", LocaleUtil.Type.ERROR, false);
+                    I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.INFO, "目标梦境不存在或未被加载"));
+                    plugin.lang.log("重读取失败，目标梦境可能不存在", I18n.Type.ERROR, false);
                     return;
                 } else {
-                    plugin.lang.log("重读取成功，获取到目标梦境，正继续进行释放操作", LocaleUtil.Type.INFO, false);
+                    plugin.lang.log("重读取成功，获取到目标梦境，正继续进行释放操作", I18n.Type.INFO, false);
                 }
             }
             double cost = dream.cost;
@@ -191,9 +191,9 @@ public class DreamControl {
             double money = plugin.getVaultUtil().getBalances(user);
             if (money < cost) {
                 if (hasRedstone) {
-                    plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "释放梦境失败, 您没有足够的金币支付 &c" + cost + " &7金币的释放梦境费用(&c包含红石附加费&7), 您当前拥有 &c" + money + " &7金币."));
+                    I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "释放梦境失败, 您没有足够的金币支付 &c" + cost + " &7金币的释放梦境费用(&c包含红石附加费&7), 您当前拥有 &c" + money + " &7金币."));
                 } else {
-                    plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "释放梦境失败, 您没有足够的金币支付 &c" + cost + " &7金币的释放梦境费用, 您当前拥有 &c" + money + " &7金币."));
+                    I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "释放梦境失败, 您没有足够的金币支付 &c" + cost + " &7金币的释放梦境费用, 您当前拥有 &c" + money + " &7金币."));
                 }
             } else {
                 boolean pass = true;
@@ -208,7 +208,7 @@ public class DreamControl {
                     Material material = BukkitAdapter.adapt(user.getWorld(), vector3).getBlock().getType();
                     List<Material> checkList = new ArrayList<>(Arrays.asList(Material.AIR, Material.CAVE_AIR, Material.VOID_AIR, Material.WATER, Material.LAVA));
                     if (!checkList.contains(material)) {
-                        plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.WARN, "由于周围有方块阻挡, 梦境释放失败."));
+                        I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "由于周围有方块阻挡, 梦境释放失败."));
                         pass = false;
                         break;
                     }
@@ -222,13 +222,13 @@ public class DreamControl {
                             Location loc = new Location(user.getWorld(), vector3.getBlockX(), vector3.getBlockY(), vector3.getBlockZ());
                             coreProtectAPI.logPlacement("#[BuildDream]" + user.getDisplayName(), loc, material, loc.getBlock().getBlockData());
                         } else {
-                            plugin.lang.logError(LocaleUtil.LOAD, "CoreProtect API", "对象为 null.");
+                            plugin.lang.logError(I18n.LOAD, "CoreProtect API", "对象为 null.");
                         }
                     }
                     Logger.get().logRelease(publicID, user);
                     plugin.getVaultUtil().take(user, cost);
                     money = plugin.getVaultUtil().getBalances(user);
-                    plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.INFO, "释放梦境成功, 扣除释放梦境费用共 &c" + cost + " &7金币, 您当前剩余 &c" + money + " &7金币."));
+                    I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.INFO, "释放梦境成功, 扣除释放梦境费用共 &c" + cost + " &7金币, 您当前剩余 &c" + money + " &7金币."));
                 }
             }
         }
