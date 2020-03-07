@@ -175,16 +175,7 @@ public class DreamControl {
             Dream dream = Storage.get().get(publicID);
             if (dream == null) {
                 plugin.lang.logError("筑梦", publicID, "Dream 对象为 null.");
-                plugin.lang.log("正尝试刷新筑梦列表以检索目标梦境是否存在", LocaleUtil.Type.INFO, false);
-                Storage.get().initWithSilent();
-                dream = Storage.get().get(publicID);
-                if (dream == null) {
-                    plugin.lang.send(user, plugin.lang.build(plugin.localeKey, LocaleUtil.Type.INFO, "目标梦境不存在或未被加载"));
-                    plugin.lang.log("重读取失败，目标梦境可能不存在", LocaleUtil.Type.ERROR, false);
-                    return;
-                } else {
-                    plugin.lang.log("重读取成功，获取到目标梦境，正继续进行释放操作", LocaleUtil.Type.INFO, false);
-                }
+                return;
             }
             double cost = dream.cost;
             boolean hasRedstone = dream.redstone;
