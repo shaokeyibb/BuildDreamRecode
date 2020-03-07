@@ -31,6 +31,8 @@ public class ReleaseCmd implements PCommand {
                     if (dream != null) {
                         if (user.getUniqueId().toString().equals(dream.author.toString())) {
                             DreamControl.releaseDream(args[1], user.getUniqueId());
+                        }else{
+                            I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.INFO, "您不能释放不属于您的梦境."));
                         }
                     } else {
                         I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "未找到梦境对象."));
