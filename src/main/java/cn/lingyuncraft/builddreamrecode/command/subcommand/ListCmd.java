@@ -17,6 +17,7 @@ public class ListCmd implements PCommand {
 
     @Override
     public boolean execute(PPlugin plugin, CommandSender sender, String[] args) {
+        Storage.get().initWithSilent();
         switch (args.length) {
             case 1:
                 if (!(sender instanceof Player)) {

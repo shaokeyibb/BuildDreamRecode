@@ -1,7 +1,6 @@
 package cn.lingyuncraft.builddreamrecode;
 
 import cn.lingyuncraft.builddreamrecode.command.BuildDreamCommand;
-import cn.lingyuncraft.builddreamrecode.listener.DreamInit;
 import cn.lingyuncraft.builddreamrecode.listener.InventoryGetter;
 import cn.lingyuncraft.builddreamrecode.listener.LocationSetter;
 import cn.lingyuncraft.builddreamrecode.utils.Configuration;
@@ -55,7 +54,6 @@ public final class BuildDreamRecode extends PPlugin {
     protected void registerListener() {
         Bukkit.getPluginManager().registerEvents(new LocationSetter(), this);
         Bukkit.getPluginManager().registerEvents(new InventoryGetter(), this);
-        Bukkit.getPluginManager().registerEvents(new DreamInit(), this);
     }
 
     @Override
