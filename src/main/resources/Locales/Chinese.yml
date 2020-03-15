@@ -3,7 +3,7 @@ Plugin:
   INFO: "&a>> "
   WARN: "&e>> "
   ERROR: "&c>> "
-  HelpMessage:
+  Help:
     - "&7--------[&9&l筑梦系统&a使用帮助&7]--------"
     - "  &7以下指令中, &f[]&7为&c&l必填&7参数, &f<>&7为&c&l选填&7参数."
     - "  &d/builddream help &9--- &7显示使用帮助."
