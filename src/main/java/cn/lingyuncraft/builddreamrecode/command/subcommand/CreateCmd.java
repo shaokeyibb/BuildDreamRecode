@@ -35,7 +35,7 @@ public class CreateCmd implements PCommand {
                         buildDream(plugin, user, args[1], null, 0.0D);
                         break;
                     case 3:
-                        buildDream(plugin, user, args[1], args[2], 0.0D);
+                        buildDream(plugin, user, args[1], args[2], 0);
                         break;
                     default:
                         try {
