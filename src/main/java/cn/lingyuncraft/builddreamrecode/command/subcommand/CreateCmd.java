@@ -70,7 +70,11 @@ public class CreateCmd implements PCommand {
                 break;
             case 0:
                 try {
-                    DreamControl.buildDream(publicID, user.getWorld(), TempStorage.getTempPos1().get(uuid), TempStorage.getTempPos2().get(uuid), uuid, description, false, fee);
+                    if(fee!=0.0D){
+                        DreamControl.buildDream(publicID, user.getWorld(), TempStorage.getTempPos1().get(uuid), TempStorage.getTempPos2().get(uuid), uuid, description, false, 0);
+                    }else{
+                        DreamControl.buildDream(publicID, user.getWorld(), TempStorage.getTempPos1().get(uuid), TempStorage.getTempPos2().get(uuid), uuid, description, true, fee);
+                    }
                 } catch (WorldEditException | IOException e) {
                     plugin.lang.logError("筑梦", publicID, e.toString());
                     e.printStackTrace();
