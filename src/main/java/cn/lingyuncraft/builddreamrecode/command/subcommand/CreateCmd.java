@@ -32,10 +32,10 @@ public class CreateCmd implements PCommand {
                         I18n.send(user, plugin.lang.build(plugin.localeKey, I18n.Type.WARN, "请填写公众ID."));
                         break;
                     case 2:
-                        buildDream(plugin, user, args[1], null, 0.0D);
+                        buildDream(plugin, user, args[1], null, -1.0D);
                         break;
                     case 3:
-                        buildDream(plugin, user, args[1], args[2], 0);
+                        buildDream(plugin, user, args[1], args[2], -1.0D);
                         break;
                     default:
                         try {
@@ -70,8 +70,8 @@ public class CreateCmd implements PCommand {
                 break;
             case 0:
                 try {
-                    if(fee!=0.0D){
-                        DreamControl.buildDream(publicID, user.getWorld(), TempStorage.getTempPos1().get(uuid), TempStorage.getTempPos2().get(uuid), uuid, description, false, 0);
+                    if(fee<=0){
+                        DreamControl.buildDream(publicID, user.getWorld(), TempStorage.getTempPos1().get(uuid), TempStorage.getTempPos2().get(uuid), uuid, description, false, -1);
                     }else{
                         DreamControl.buildDream(publicID, user.getWorld(), TempStorage.getTempPos1().get(uuid), TempStorage.getTempPos2().get(uuid), uuid, description, true, fee);
                     }

@@ -41,7 +41,7 @@ public final class BuildDreamRecode extends PPlugin {
         Logger.get().init();
         Worth.get().init();
 
-        super.registerCommand("builddream", new BuildDreamCommand(this));
+        super.registerCommand(new BuildDreamCommand(this,"builddream"));
 
         if (!vaultUtil.isHooks()) {
             Bukkit.getPluginManager().disablePlugin(this);

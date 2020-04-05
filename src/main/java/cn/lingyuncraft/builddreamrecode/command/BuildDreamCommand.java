@@ -9,15 +9,15 @@ import org.serverct.parrot.parrotx.command.subcommands.ReloadCommand;
 
 public class BuildDreamCommand extends CommandHandler {
 
-    public BuildDreamCommand(@NonNull PPlugin plugin) {
-        super(plugin);
+    public BuildDreamCommand(@NonNull PPlugin plugin, String mainCmd) {
+        super(plugin, mainCmd);
         registerSubCommand("create", new CreateCmd());
         registerSubCommand("list", new ListCmd());
         registerSubCommand("release", new ReleaseCmd());
         registerSubCommand("shop", new ShopCmd());
         registerSubCommand("snapshot", new SnapshotCmd());
-        registerSubCommand("reload", new ReloadCommand("BuildDream.reload"));
-        registerSubCommand("help", new HelpCommand("BuildDream.use"));
+        registerSubCommand("reload", new ReloadCommand(plugin,"BuildDream.reload"));
+        registerSubCommand("help", new HelpCommand(plugin,"BuildDream.use"));
     }
 
 }
